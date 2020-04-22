@@ -42,7 +42,7 @@ func TestOption(t *testing.T) {
 			var c config
 			tc.opt.apply(&c)
 			if !cmp.Equal(tc.want, c) {
-				t.Errorf("unexpected client configuration, diff = %s\n", cmp.Diff(tc.want, c))
+				t.Errorf("unexpected client configuration, diff = \n%s", cmp.Diff(tc.want, c))
 			}
 		})
 	}
