@@ -1,7 +1,9 @@
 package transmission
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -12,7 +14,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func setup(t *testing.T, opts ...Option) (client *Client, handle func(func(http.ResponseWriter, *http.Request)), teardown func()) {
+func setup(t *testing.T, opts ...Option) (client *Client, handle func(func(http.ResponseWriter, *http.Request)), teardown func()) { //nolint:lll
 	t.Helper()
 
 	mux := http.NewServeMux()
@@ -46,12 +48,21 @@ func testHeader(t *testing.T, r *http.Request, header, want string) {
 func testBody(t *testing.T, r *http.Request, want string) {
 	t.Helper()
 
+	gotBody := new(bytes.Buffer)
+	wantBody := new(bytes.Buffer)
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		t.Fatalf("failed to read request body: %v", err)
 	}
-	if got := strings.TrimSpace(string(body)); want != got {
-		t.Errorf("unexpected request body, want = %q, got = %q", want, got)
+	if err := json.Indent(gotBody, body, "", "  "); err != nil {
+		t.Fatalf("failed to indent JSON body: %v", err)
+	}
+	if err := json.Indent(wantBody, []byte(want), "", "  "); err != nil {
+		t.Fatalf("failed to indent JSON test body: %v", err)
+	}
+	if want, got := strings.TrimSpace(wantBody.String()), strings.TrimSpace(gotBody.String()); !cmp.Equal(want, got) {
+		t.Errorf("unexpected request body, diff = \n%s", cmp.Diff(want, got))
 	}
 }
 
@@ -80,7 +91,7 @@ func TestCallRPC(t *testing.T) {
 	}
 
 	if want, got := (testResponse{Resp: "testresp"}), gotResponse; !cmp.Equal(want, got) {
-		t.Errorf("unexpected response, diff = %s\n", cmp.Diff(want, got))
+		t.Errorf("unexpected response, diff = \n%s", cmp.Diff(want, got))
 	}
 }
 

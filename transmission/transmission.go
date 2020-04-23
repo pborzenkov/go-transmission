@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+	"sync/atomic"
 )
 
 const (
@@ -26,6 +27,8 @@ type Client struct {
 
 	mu        sync.Mutex
 	sessionID string
+
+	unitConversion atomic.Value
 }
 
 // New returns new instance of a Client.
@@ -63,6 +66,28 @@ func (c *Client) setSessionID(id string) {
 	c.mu.Lock()
 	c.sessionID = id
 	c.mu.Unlock()
+}
+
+type unitConversion struct {
+	speed  int64
+	size   int64
+	memory int64
+}
+
+func (c *Client) getUnitConversion() unitConversion {
+	u := c.unitConversion.Load()
+	if u == nil {
+		return unitConversion{
+			speed:  1000,
+			size:   1000,
+			memory: 1000,
+		}
+	}
+	return u.(unitConversion)
+}
+
+func (c *Client) setUnitConversion(u unitConversion) {
+	c.unitConversion.Store(u)
 }
 
 type rpcRequest struct {
