@@ -38,6 +38,7 @@ func TestWeekday(t *testing.T) {
 		},
 	}
 	for _, tc := range tests {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			if want, got := tc.want, tc.days.String(); want != got {
 				t.Errorf("unexpected output, want = %q, got = %q", want, got)
@@ -57,6 +58,7 @@ func TestEncryption(t *testing.T) {
 		{enc: 10, want: "Encryption(10)"},
 	}
 	for _, tc := range tests {
+		tc := tc
 		t.Run(tc.want, func(t *testing.T) {
 			if want, got := tc.want, tc.enc.String(); want != got {
 				t.Errorf("unexpected output, want = %q, got = %q", want, got)

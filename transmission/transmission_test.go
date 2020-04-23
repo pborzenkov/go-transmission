@@ -14,7 +14,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func setup(t *testing.T, opts ...Option) (client *Client, handle func(func(http.ResponseWriter, *http.Request)), teardown func()) {
+func setup(t *testing.T, opts ...Option) (client *Client, handle func(func(http.ResponseWriter, *http.Request)), teardown func()) { //nolint:lll
 	t.Helper()
 
 	mux := http.NewServeMux()
