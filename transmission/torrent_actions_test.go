@@ -64,3 +64,33 @@ func TestTorrentActions(t *testing.T) {
 		})
 	}
 }
+
+func TestRenameTorrentPath(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "torrent-rename-path",
+			"arguments": {
+				"ids": "abcde",
+				"path": "oldtorrentpath/file.iso",
+				"name": "newfile.iso"
+			}
+		}`)
+
+		fmt.Fprintf(w, `{
+			"result":"success",
+			"arguments": {
+				"ids": 1,
+				"path": "oldtorrentpath/file.iso",
+				"name": "newfile.iso"
+			}
+		}`)
+	})
+
+	err := client.RenameTorrentPath(context.Background(), Hash("abcde"), "oldtorrentpath/file.iso", "newfile.iso")
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+}

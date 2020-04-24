@@ -50,3 +50,16 @@ func (c *Client) VerifyTorrents(ctx context.Context, ids Identifier) error {
 func (c *Client) ReannounceTorrents(ctx context.Context, ids Identifier) error {
 	return c.torrentAction(ctx, "torrent-reannounce", ids)
 }
+
+// RenameTorrentPath renames a file or directory in a torrent.
+//
+// https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L438
+func (c *Client) RenameTorrentPath(ctx context.Context, id SingularIdentifier, path, name string) error {
+	var renameTorrentPathReq = struct {
+		IDs  SingularIdentifier `json:"ids"`
+		Path string             `json:"path"`
+		Name string             `json:"name"`
+	}{id, path, name}
+
+	return c.callRPC(ctx, "torrent-rename-path", &renameTorrentPathReq, nil)
+}
