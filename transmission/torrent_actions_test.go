@@ -94,3 +94,26 @@ func TestRenameTorrentPath(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 }
+
+func TestSetTorrentsLocation(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "torrent-set-location",
+			"arguments": {
+				"ids": [1, "abcde"],
+				"location": "/new/path",
+				"move": true
+			}
+		}`)
+
+		fmt.Fprintf(w, `{"result":"success"}`)
+	})
+
+	err := client.SetTorrentsLocation(context.Background(), IDs(ID(1), Hash("abcde")), "/new/path", true)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+}

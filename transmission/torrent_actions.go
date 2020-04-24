@@ -63,3 +63,18 @@ func (c *Client) RenameTorrentPath(ctx context.Context, id SingularIdentifier, p
 
 	return c.callRPC(ctx, "torrent-rename-path", &renameTorrentPathReq, nil)
 }
+
+// SetTorrentsLocation set new location for torrents identified by ids to
+// location. If move is true, existing files are moved to the new location.
+// Otherwise new location is searched for files.
+//
+// https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L421
+func (c *Client) SetTorrentsLocation(ctx context.Context, ids Identifier, location string, move bool) error {
+	var setTorrentsLocationReq = struct {
+		IDs      Identifier `json:"ids"`
+		Location string     `json:"location"`
+		Move     bool       `json:"move"`
+	}{ids, location, move}
+
+	return c.callRPC(ctx, "torrent-set-location", &setTorrentsLocationReq, nil)
+}
