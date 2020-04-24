@@ -6,7 +6,7 @@ import (
 
 func (c *Client) torrentAction(ctx context.Context, cmd string, ids Identifier) error {
 	type torrentActionReq struct {
-		IDs Identifier `json:"ids"`
+		IDs Identifier `json:"ids,omitempty"`
 	}
 
 	return c.callRPC(ctx, cmd, &torrentActionReq{IDs: ids}, nil)
@@ -71,7 +71,7 @@ func (c *Client) RenameTorrentPath(ctx context.Context, id SingularIdentifier, p
 // https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L421
 func (c *Client) SetTorrentsLocation(ctx context.Context, ids Identifier, location string, move bool) error {
 	var setTorrentsLocationReq = struct {
-		IDs      Identifier `json:"ids"`
+		IDs      Identifier `json:"ids,omitempty"`
 		Location string     `json:"location"`
 		Move     bool       `json:"move"`
 	}{ids, location, move}
@@ -85,7 +85,7 @@ func (c *Client) SetTorrentsLocation(ctx context.Context, ids Identifier, locati
 // https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L407
 func (c *Client) RemoveTorrents(ctx context.Context, ids Identifier, removeData bool) error {
 	var removeTorrentsReq = struct {
-		IDs        Identifier `json:"ids"`
+		IDs        Identifier `json:"ids,omitempty"`
 		RemoveData bool       `json:"delete-local-data"`
 	}{ids, removeData}
 
