@@ -78,3 +78,16 @@ func (c *Client) SetTorrentsLocation(ctx context.Context, ids Identifier, locati
 
 	return c.callRPC(ctx, "torrent-set-location", &setTorrentsLocationReq, nil)
 }
+
+// RemoveTorrents removes torrens identified by ids. If removeData is true it
+// also removes downloaded date.
+//
+// https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L407
+func (c *Client) RemoveTorrents(ctx context.Context, ids Identifier, removeData bool) error {
+	var removeTorrentsReq = struct {
+		IDs        Identifier `json:"ids"`
+		RemoveData bool       `json:"delete-local-data"`
+	}{ids, removeData}
+
+	return c.callRPC(ctx, "torrent-remove", &removeTorrentsReq, nil)
+}

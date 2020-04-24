@@ -117,3 +117,25 @@ func TestSetTorrentsLocation(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 }
+
+func TestRemoveTorrents(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "torrent-remove",
+			"arguments": {
+				"ids": [1, "abcde"],
+				"delete-local-data": true
+			}
+		}`)
+
+		fmt.Fprintf(w, `{"result":"success"}`)
+	})
+
+	err := client.RemoveTorrents(context.Background(), IDs(ID(1), Hash("abcde")), true)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+}
