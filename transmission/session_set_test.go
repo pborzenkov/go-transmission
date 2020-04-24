@@ -94,8 +94,8 @@ func TestSetSession(t *testing.T) {
 		UploadQueueLimitEnabled:   OptBool(true),
 		QueueStalled:              OptDuration(30 * time.Minute),
 		QueueStalledEnabled:       OptBool(true),
-		UploadRatio:               OptFloat64(2),
-		UploadRatioEnabled:        OptBool(true),
+		UploadRatioLimit:          OptFloat64(2),
+		UploadRatioLimitEnabled:   OptBool(true),
 
 		DHTEnabled: OptBool(true),
 		LPDEnabled: OptBool(true),
