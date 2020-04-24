@@ -51,3 +51,15 @@ func OptWeekday(v Weekday) *Weekday {
 func OptEncryption(v Encryption) *Encryption {
 	return &v
 }
+
+// OptPriority is a helper routine that allocates new Priority to store v and
+// returns a pointer to it.
+func OptPriority(v Priority) *Priority {
+	return &v
+}
+
+// OptLimit is a helper routine that allocates new Limit to store v and returns
+// a pointer to it.
+func OptLimit(v Limit) *Limit {
+	return &v
+}

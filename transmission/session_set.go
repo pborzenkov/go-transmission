@@ -64,10 +64,10 @@ type SetSessionReq struct {
 	QueueStalled *time.Duration `json:"-"`
 	// Indicates whether or not to consider idle torrents as stalled
 	QueueStalledEnabled *bool `json:"queue-stalled-enabled,omitempty"`
-	// The default upload ratio for torrents
-	UploadRatio *float64 `json:"seedRatioLimit,omitempty"`
+	// The default upload ratio limit for torrents
+	UploadRatioLimit *float64 `json:"seedRatioLimit,omitempty"`
 	// Indicates whether or not to consider upload ration
-	UploadRatioEnabled *bool `json:"seedRatioLimited,omitempty"`
+	UploadRatioLimitEnabled *bool `json:"seedRatioLimited,omitempty"`
 
 	// Indicates whether DHT is allowed for public torrents
 	DHTEnabled *bool `json:"dht-enabled,omitempty"`
@@ -155,9 +155,5 @@ func (c *Client) SetSession(ctx context.Context, req *SetSessionReq) error {
 		setSessionJSON.IdleSeedingLimit = OptDuration(*req.IdleSeedingLimit / time.Minute)
 	}
 
-	if err := c.callRPC(ctx, "session-set", &setSessionJSON, nil); err != nil {
-		return err
-	}
-
-	return nil
+	return c.callRPC(ctx, "session-set", &setSessionJSON, nil)
 }

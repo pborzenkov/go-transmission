@@ -93,3 +93,21 @@ func (e *Encryption) UnmarshalJSON(data []byte) error {
 
 	return fmt.Errorf("unsupported Encryption value %q", enc)
 }
+
+// Priority indicates torrent or file priority.
+type Priority int
+
+const (
+	PriorityLow    Priority = -1
+	PriorityNormal Priority = 0
+	PriorityHigh   Priority = 1
+)
+
+// Limit controls whether a particular torrent follows global limits or not.
+type Limit int
+
+const (
+	LimitGlobal    Limit = 0 // Honor global limit
+	LimitLocal     Limit = 1 // Honor local torrent limit
+	LimitUnlimited Limit = 2 // Don't honor any limit
+)
