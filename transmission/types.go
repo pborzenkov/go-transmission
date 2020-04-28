@@ -238,3 +238,13 @@ func (b *boolint) UnmarshalJSON(data []byte) error {
 	*b = boolint(ti != 0)
 	return nil
 }
+
+// Cookie is an HTTP cookie
+type Cookie struct {
+	Name  string
+	Value string
+}
+
+func (c *Cookie) String() string {
+	return c.Name + "=" + c.Value
+}
