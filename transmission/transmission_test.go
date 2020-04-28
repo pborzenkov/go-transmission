@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -64,6 +65,16 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	if want, got := strings.TrimSpace(wantBody.String()), strings.TrimSpace(gotBody.String()); !cmp.Equal(want, got) {
 		t.Errorf("unexpected request body, diff = \n%s", cmp.Diff(want, got))
 	}
+}
+
+func parseTestURL(t *testing.T, str string) *url.URL {
+	t.Helper()
+
+	u, err := url.Parse(str)
+	if err != nil {
+		t.Fatalf("failed to parse URL %q: %v", str, err)
+	}
+	return u
 }
 
 func TestCallRPC(t *testing.T) {

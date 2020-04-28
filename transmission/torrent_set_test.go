@@ -10,16 +10,6 @@ import (
 )
 
 func TestSetTorrent(t *testing.T) {
-	parseURL := func(t *testing.T, str string) *url.URL {
-		t.Helper()
-
-		u, err := url.Parse(str)
-		if err != nil {
-			t.Fatalf("failed to parse URL %q: %v", str, err)
-		}
-		return u
-	}
-
 	client, handle, teardown := setup(t)
 	defer teardown()
 
@@ -81,13 +71,13 @@ func TestSetTorrent(t *testing.T) {
 		UploadRatioLimitMode: OptLimit(LimitLocal),
 
 		TrackersToAdd: []*url.URL{
-			parseURL(t, "http://retracker.local:80"),
-			parseURL(t, "http://bt2.t-ru.org:80"),
+			parseTestURL(t, "http://retracker.local:80"),
+			parseTestURL(t, "http://bt2.t-ru.org:80"),
 		},
 		TrackerToRemove: []int{1, 2, 3},
 		TrackersToReplace: []TrackerReplacement{
-			{ID: 1, AnnounceURL: parseURL(t, "http://retracker.local:80")},
-			{ID: 2, AnnounceURL: parseURL(t, "http://bt2.t-ru.org:80")},
+			{ID: 1, AnnounceURL: parseTestURL(t, "http://retracker.local:80")},
+			{ID: 2, AnnounceURL: parseTestURL(t, "http://bt2.t-ru.org:80")},
 		},
 	})
 	if err != nil {
