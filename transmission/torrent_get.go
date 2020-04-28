@@ -34,3 +34,21 @@ func (c *Client) GetTorrents(ctx context.Context, ids Identifier, fields ...Torr
 
 	return torrents, nil
 }
+
+// GetRecentlyRemovedTorrentIDs returns a slice of torrent IDs that's been
+// removed in the past hour.
+func (c *Client) GetRecentlyRemovedTorrentIDs(ctx context.Context) ([]ID, error) {
+	var getTorrentsReq = struct {
+		IDs    Identifier     `json:"ids"`
+		Fields []TorrentField `json:"fields"`
+	}{RecentlyActive(), []TorrentField{TorrentFieldID}}
+
+	var resp = struct {
+		Removed []ID `json:"removed"`
+	}{}
+	if err := c.callRPC(ctx, "torrent-get", getTorrentsReq, &resp); err != nil {
+		return nil, err
+	}
+
+	return resp.Removed, nil
+}

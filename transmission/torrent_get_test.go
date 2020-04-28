@@ -577,3 +577,36 @@ func TestGetTorrents(t *testing.T) {
 		t.Errorf("expected non-existing piece to be reported as not downloaded")
 	}
 }
+
+func TestGetRecentlyRemovedTorrnetIDs(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "torrent-get",
+			"arguments": {
+			  "ids": "recently-active",
+			  "fields": [
+			    "id"
+			  ]
+		        }
+		}`)
+
+		fmt.Fprintf(w, `{
+			"result": "success",
+			"arguments": {
+			  "removed": [3, 7, 10]
+		        }
+		  }`)
+	})
+
+	got, err := client.GetRecentlyRemovedTorrentIDs(context.Background())
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	want := []ID{3, 7, 10}
+	if !cmp.Equal(want, got) {
+		t.Fatalf("unexpected list of removed torrents, diff = \n%s", cmp.Diff(want, got))
+	}
+}
