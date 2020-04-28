@@ -103,6 +103,19 @@ const (
 	PriorityHigh   Priority = 1
 )
 
+func (p Priority) String() string {
+	switch p {
+	case PriorityLow:
+		return "low"
+	case PriorityNormal:
+		return "normal"
+	case PriorityHigh:
+		return "high"
+	default:
+		return fmt.Sprintf("Priority(%d)", p)
+	}
+}
+
 // Limit controls whether a particular torrent follows global limits or not.
 type Limit int
 
@@ -111,3 +124,117 @@ const (
 	LimitLocal     Limit = 1 // Honor local torrent limit
 	LimitUnlimited Limit = 2 // Don't honor any limit
 )
+
+func (l Limit) String() string {
+	switch l {
+	case LimitGlobal:
+		return "global"
+	case LimitLocal:
+		return "normal"
+	case LimitUnlimited:
+		return "unlimited"
+	default:
+		return fmt.Sprintf("Limit(%d)", l)
+	}
+}
+
+// Status indicates torrent status
+type Status int
+
+const (
+	StatusStopped      Status = 0 // Stopped
+	StatusCheckWait    Status = 1 // Queued for checking
+	StatusCheck        Status = 2 // Checking
+	StatusDownloadWait Status = 3 // Queued for downloading
+	StatusDownload     Status = 4 // Downloading
+	StatusSeedWait     Status = 5 // Queued for seeding
+	StatusSeed         Status = 6 // Seeding
+)
+
+func (s Status) String() string {
+	switch s {
+	case StatusStopped:
+		return "stopped"
+	case StatusCheckWait:
+		return "queued for checking"
+	case StatusCheck:
+		return "checking"
+	case StatusDownloadWait:
+		return "queued for downloading"
+	case StatusDownload:
+		return "downloading"
+	case StatusSeedWait:
+		return "queued for seeding"
+	case StatusSeed:
+		return "seeding"
+	default:
+		return fmt.Sprintf("Status(%d)", s)
+	}
+}
+
+// ErrorType defines a category of torrent error.
+type ErrorType int
+
+const (
+	ErrorTypeOK             ErrorType = 0 // Everything is OK
+	ErrorTypeTrackerWarning ErrorType = 1 // Warning from tracker
+	ErrorTypeTrackerError   ErrorType = 2 // Error from tracker
+	ErrorTypeLocalError     ErrorType = 3 // Local problems
+)
+
+func (e ErrorType) String() string {
+	switch e {
+	case ErrorTypeOK:
+		return "OK"
+	case ErrorTypeTrackerWarning:
+		return "tracker warning"
+	case ErrorTypeTrackerError:
+		return "tracker error"
+	case ErrorTypeLocalError:
+		return "local error"
+	default:
+		return fmt.Sprintf("ErrorType(%d)", e)
+	}
+}
+
+// TrackerState defines a state of a tracker.
+type TrackerState int
+
+const (
+	TrackerStateInactive TrackerState = 0 // Not gonna announce/scrape
+	TrackerStateWaiting  TrackerState = 1 // Waiting to announce/scrape
+	TrackerStateQueued   TrackerState = 2 // It's time to announce/scrape
+	TrackerStateActive   TrackerState = 3 // Announcing/scraping
+)
+
+func (t TrackerState) String() string {
+	switch t {
+	case TrackerStateInactive:
+		return "inactive"
+	case TrackerStateWaiting:
+		return "waiting"
+	case TrackerStateQueued:
+		return "queued"
+	case TrackerStateActive:
+		return "active"
+	default:
+		return fmt.Sprintf("TrackerState(%d)", t)
+	}
+}
+
+// boolint handles both JSON bools and ints
+type boolint bool
+
+func (b *boolint) UnmarshalJSON(data []byte) error {
+	var tb bool
+	if err := json.Unmarshal(data, &tb); err == nil {
+		*b = boolint(tb)
+		return nil
+	}
+	var ti int
+	if err := json.Unmarshal(data, &ti); err != nil {
+		return err
+	}
+	*b = boolint(ti != 0)
+	return nil
+}
