@@ -11,7 +11,7 @@ func (c *Client) GetTorrents(ctx context.Context, ids Identifier, fields ...Torr
 	}
 
 	var getTorrentsReq = struct {
-		IDs    Identifier     `json:"ids"`
+		IDs    Identifier     `json:"ids,omitempty"`
 		Fields []TorrentField `json:"fields"`
 	}{ids, fields}
 

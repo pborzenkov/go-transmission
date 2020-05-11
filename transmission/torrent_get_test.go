@@ -578,6 +578,46 @@ func TestGetTorrents(t *testing.T) {
 	}
 }
 
+func TestGetTorrents_all(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "torrent-get",
+			"arguments": {
+			  "fields": [
+			    "id"
+			  ]
+			}
+		}`)
+
+		fmt.Fprintf(w, `{
+			"result": "success",
+			"arguments": {
+			  "torrents": [
+			    {"id": 1},
+			    {"id": 2},
+			    {"id": 3}
+			  ]
+		        }
+		  }`)
+	})
+
+	got, err := client.GetTorrents(context.Background(), All(), TorrentFieldID)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	want := []*Torrent{
+		{ID: ID(1)},
+		{ID: ID(2)},
+		{ID: ID(3)},
+	}
+	if !cmp.Equal(want, got) {
+		t.Fatalf("unexpected torrent data, diff = \n%s", cmp.Diff(want, got))
+	}
+}
+
 func TestGetRecentlyRemovedTorrnetIDs(t *testing.T) {
 	client, handle, teardown := setup(t)
 	defer teardown()
