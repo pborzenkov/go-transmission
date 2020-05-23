@@ -51,7 +51,7 @@ func TestGetSession(t *testing.T) {
                           "queue-stalled-enabled": true,
                           "queue-stalled-minutes": 30,
                           "rename-partial-files": true,
-                          "rpc-version": 15,
+                          "rpc-version": 16,
                           "rpc-version-minimum": 1,
                           "script-torrent-done-enabled": true,
                           "script-torrent-done-filename": "/home/transmission/done.script",
@@ -59,6 +59,7 @@ func TestGetSession(t *testing.T) {
                           "seed-queue-size": 3,
                           "seedRatioLimit": 2,
                           "seedRatioLimited": true,
+                          "session-id": "9dvjMtapm8DNK1sRnRfeJPuG3DXT3Zd5DOC9g720rtcjeqnn",
                           "speed-limit-down": 10240,
                           "speed-limit-down-enabled": true,
                           "speed-limit-up": 10240,
@@ -89,7 +90,7 @@ func TestGetSession(t *testing.T) {
                             ]
                           },
                           "utp-enabled": true,
-                          "version": "2.94 (d8e60ee44f)"
+                          "version": "3.00 (f4489c982e)"
 			}
 		  }`)
 	})
@@ -99,6 +100,8 @@ func TestGetSession(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 	}
 	want := &Session{
+		ID: "9dvjMtapm8DNK1sRnRfeJPuG3DXT3Zd5DOC9g720rtcjeqnn",
+
 		TurtleDownloadRateLimit: 5120000,
 		TurtleUploadRateLimit:   5120000,
 		TurtleEnabled:           true,
@@ -156,9 +159,9 @@ func TestGetSession(t *testing.T) {
 		AutostartTorrents:  true,
 		RemoveTorrentFiles: true,
 
-		RPCVersion:        15,
+		RPCVersion:        16,
 		RPCVersionMinimum: 1,
-		Version:           "2.94 (d8e60ee44f)",
+		Version:           "3.00 (f4489c982e)",
 
 		Units: SessionUnits{
 			Speed:            []string{"KB/s", "MB/s", "GB/s", "TB/s"},

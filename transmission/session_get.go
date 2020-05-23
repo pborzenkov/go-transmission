@@ -6,6 +6,9 @@ import (
 )
 
 type Session struct {
+	// ID of the current session
+	ID string `json:"session-id"`
+
 	// Maximum allowed download rate in "turtle" mode (bytes/s)
 	TurtleDownloadRateLimit int64 `json:"alt-speed-down"`
 	// Maximum allowed upload rate in "turtle" mode (bytes/s)
