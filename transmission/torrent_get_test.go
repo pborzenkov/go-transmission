@@ -27,6 +27,7 @@ func TestGetTorrents(t *testing.T) {
 			    "status",
 			    "creator",
 			    "comment",
+			    "labels",
 			    "eta",
 			    "etaIdle",
 			    "error",
@@ -102,6 +103,7 @@ func TestGetTorrents(t *testing.T) {
 			    "status": 4,
 			    "creator": "go-transmission",
 			    "comment": "Just a test torrent",
+			    "labels": ["iso", "linux"],
 			    "eta": 503,
 			    "etaIdle": -1,
 			    "error": 1,
@@ -327,6 +329,7 @@ func TestGetTorrents(t *testing.T) {
 			Status:  StatusDownload,
 			Creator: "go-transmission",
 			Comment: "Just a test torrent",
+			Labels:  []string{"iso", "linux"},
 
 			ETA:     503 * time.Second,
 			IdleETA: -1,

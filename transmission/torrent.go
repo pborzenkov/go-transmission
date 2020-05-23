@@ -81,6 +81,8 @@ type Torrent struct {
 	Creator string `json:"creator"`
 	// An optional commen
 	Comment string `json:"comment"`
+	// Torrent labels
+	Labels []string `json:"labels"`
 
 	// ETA until the torrent is done. This is 0 if ETA is unknown or not
 	// available

@@ -12,6 +12,7 @@ const (
 	TorrentFieldStatus                   TorrentField = "status"
 	TorrentFieldCreator                  TorrentField = "creator"
 	TorrentFieldComment                  TorrentField = "comment"
+	TorrentFieldLabels                   TorrentField = "labels"
 	TorrentFieldETA                      TorrentField = "eta"
 	TorrentFieldIdleETA                  TorrentField = "etaIdle"
 	TorrentFieldErrorType                TorrentField = "error"
@@ -82,6 +83,7 @@ var allTorrentFields = []TorrentField{
 	TorrentFieldStatus,
 	TorrentFieldCreator,
 	TorrentFieldComment,
+	TorrentFieldLabels,
 	TorrentFieldETA,
 	TorrentFieldIdleETA,
 	TorrentFieldErrorType,

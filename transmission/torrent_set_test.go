@@ -29,6 +29,7 @@ func TestSetTorrent(t *testing.T) {
 			  "files-unwanted": [10, 11],
 			  "peer-limit": 100,
 			  "location": "/home/transmission/new",
+			  "labels": ["iso", "linux"],
 			  "seedIdleMode": 0,
 			  "seedRatioLimit": 2.45,
 			  "seedRatioMode": 1,
@@ -64,6 +65,8 @@ func TestSetTorrent(t *testing.T) {
 		PeerLimit: OptInt(100),
 
 		Location: OptString("/home/transmission/new"),
+
+		Labels: []string{"iso", "linux"},
 
 		IdleSeedingLimit:     OptDuration(60 * time.Minute),
 		IdleSeedingLimitMode: OptLimit(LimitGlobal),

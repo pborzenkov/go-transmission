@@ -49,6 +49,9 @@ type SetTorrentReq struct {
 	// New location of the torrent contents
 	Location *string `json:"location,omitempty"`
 
+	// Torrent labels
+	Labels []string `json:"labels"`
+
 	// Stop torrent after given time of inactivity
 	IdleSeedingLimit *time.Duration `json:"-"`
 	// Which IdleSeedingLimit value to use
