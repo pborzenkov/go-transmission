@@ -1,3 +1,4 @@
+//go:generate go run ../tools/gen-fields.go -type Session
 package transmission
 
 import (
@@ -147,9 +148,13 @@ type SessionUnits struct {
 // GetSession returns detailed information about current Transmission session.
 //
 // https://github.com/transmission/transmission/blob/46b3e6c8dae02531b1eb8907b51611fb9229b54a/extras/rpc-spec.txt#L540
-func (c *Client) GetSession(ctx context.Context) (*Session, error) {
+func (c *Client) GetSession(ctx context.Context, fields ...SessionField) (*Session, error) {
+	var getSessionReq = struct {
+		Fields []SessionField `json:"fields,omitempty"`
+	}{fields}
+
 	resp := new(Session)
-	if err := c.callRPC(ctx, "session-get", nil, resp); err != nil {
+	if err := c.callRPC(ctx, "session-get", getSessionReq, resp); err != nil {
 		return nil, err
 	}
 

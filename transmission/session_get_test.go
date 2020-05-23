@@ -15,7 +15,10 @@ func TestGetSession(t *testing.T) {
 	defer teardown()
 
 	handle(func(w http.ResponseWriter, r *http.Request) {
-		testBody(t, r, `{"method":"session-get"}`)
+		testBody(t, r, `{
+			"method": "session-get",
+			"arguments": {}
+		}`)
 
 		fmt.Fprintf(w, `{
 			"result": "success",
@@ -171,6 +174,41 @@ func TestGetSession(t *testing.T) {
 			Memory:           []string{"KB", "MB", "GB", "TB"},
 			MemoryBytesPerKB: 1000,
 		},
+	}
+
+	if !cmp.Equal(want, got) {
+		t.Errorf("unexpected session data, diff = \n%s", cmp.Diff(want, got))
+	}
+}
+
+func TestGetSession_fields(t *testing.T) {
+	client, handle, teardown := setup(t)
+	defer teardown()
+
+	handle(func(w http.ResponseWriter, r *http.Request) {
+		testBody(t, r, `{
+			"method": "session-get",
+			"arguments": {
+			  "fields": [
+			    "session-id"
+			  ]
+		        }
+		}`)
+
+		fmt.Fprintf(w, `{
+			"result": "success",
+			"arguments": {
+                          "session-id": "9dvjMtapm8DNK1sRnRfeJPuG3DXT3Zd5DOC9g720rtcjeqnn"
+			}
+		  }`)
+	})
+
+	got, err := client.GetSession(context.Background(), SessionFieldID)
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	want := &Session{
+		ID: "9dvjMtapm8DNK1sRnRfeJPuG3DXT3Zd5DOC9g720rtcjeqnn",
 	}
 
 	if !cmp.Equal(want, got) {
