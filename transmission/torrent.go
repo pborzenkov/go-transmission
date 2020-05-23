@@ -104,6 +104,8 @@ type Torrent struct {
 
 	// Torrent creation date
 	CreatedAt time.Time `json:"-" field:"dateCreated"`
+	// Timestamp of the last metadata update
+	LastEditedAt time.Time `json:"-" field:"editDate"`
 	// Date when torrent was added
 	AddedAt time.Time `json:"-" field:"addedDate"`
 	// Date when torrent was created
@@ -441,6 +443,7 @@ func (tj *trackerStatJSON) trackerStat() (TrackerStat, error) {
 type torrentJSON struct {
 	*Torrent
 	CreatedAt             int64             `json:"dateCreated"`
+	LastEditedAt          int64             `json:"editDate"`
 	AddedAt               int64             `json:"addedDate"`
 	StartedAt             int64             `json:"startDate"`
 	LastActiveAt          int64             `json:"activityDate"`
@@ -457,6 +460,7 @@ func (tj *torrentJSON) torrent(uc unitConversion) (*Torrent, error) {
 	t.ETA = duration(t.ETA, time.Second)
 	t.IdleETA = duration(t.IdleETA, time.Second)
 	t.CreatedAt = unixtime(tj.CreatedAt)
+	t.LastEditedAt = unixtime(tj.LastEditedAt)
 	t.AddedAt = unixtime(tj.AddedAt)
 	t.StartedAt = unixtime(tj.StartedAt)
 	t.LastActiveAt = unixtime(tj.LastActiveAt)

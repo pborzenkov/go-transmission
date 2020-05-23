@@ -21,6 +21,7 @@ const (
 	TorrentFieldMagnetLink               TorrentField = "magnetLink"
 	TorrentFieldDownloadDirectory        TorrentField = "downloadDir"
 	TorrentFieldCreatedAt                TorrentField = "dateCreated"
+	TorrentFieldLastEditedAt             TorrentField = "editDate"
 	TorrentFieldAddedAt                  TorrentField = "addedDate"
 	TorrentFieldStartedAt                TorrentField = "startDate"
 	TorrentFieldLastActiveAt             TorrentField = "activityDate"
@@ -92,6 +93,7 @@ var allTorrentFields = []TorrentField{
 	TorrentFieldMagnetLink,
 	TorrentFieldDownloadDirectory,
 	TorrentFieldCreatedAt,
+	TorrentFieldLastEditedAt,
 	TorrentFieldAddedAt,
 	TorrentFieldStartedAt,
 	TorrentFieldLastActiveAt,

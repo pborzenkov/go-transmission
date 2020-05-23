@@ -36,6 +36,7 @@ func TestGetTorrents(t *testing.T) {
 			    "magnetLink",
 			    "downloadDir",
 			    "dateCreated",
+			    "editDate",
 			    "addedDate",
 			    "startDate",
 			    "activityDate",
@@ -112,6 +113,7 @@ func TestGetTorrents(t *testing.T) {
 			    "magnetLink":"magnet:?xt=urn:btih:b24c456970f6013e14d01ab2defe2ceb67bb6e07&dn=A-test-torrent",
 			    "downloadDir": "/home/transmission/download",
 			    "dateCreated": 1505188945,
+			    "editDate": 1576856567,
 			    "addedDate": 1576856565,
 			    "startDate": 1587996143,
 			    "activityDate": 1587996507,
@@ -342,6 +344,7 @@ func TestGetTorrents(t *testing.T) {
 			DownloadDirectory: "/home/transmission/download",
 
 			CreatedAt:             time.Date(2017, 9, 12, 4, 2, 25, 0, time.UTC),
+			LastEditedAt:          time.Date(2019, 12, 20, 15, 42, 47, 0, time.UTC),
 			AddedAt:               time.Date(2019, 12, 20, 15, 42, 45, 0, time.UTC),
 			StartedAt:             time.Date(2020, 4, 27, 14, 2, 23, 0, time.UTC),
 			LastActiveAt:          time.Date(2020, 4, 27, 14, 8, 27, 0, time.UTC),
