@@ -6,17 +6,17 @@ import (
 	"strings"
 )
 
-// Weeekday specifies a day of the week.
+// Weekday specifies a day of the week.
 type Weekday int
 
 const (
-	Sunday Weekday = (1 << iota)
-	Monday
-	Tuesday
-	Wednesday
-	Thursday
-	Friday
-	Saturday
+	Sunday    Weekday = (1 << iota) // Sunday is a day of week
+	Monday                          // Monday is a day of week
+	Tuesday                         // Tuesday is a day of week
+	Wednesday                       // Wednesday is a day of week
+	Thursday                        // Thursday is a day of week
+	Friday                          // Friday is a day of week
+	Saturday                        // Saturday is a day of week
 
 	weekday  = Monday | Tuesday | Wednesday | Thursday | Friday
 	weekend  = Saturday | Sunday
@@ -52,9 +52,9 @@ func (d Weekday) String() string {
 type Encryption int
 
 const (
-	EncryptionRequired Encryption = iota
-	EncryptionPreferred
-	EncryptionTolerated
+	EncryptionRequired  Encryption = iota // EncryptionRequired means Transmission requires encrypted connections for this torrent
+	EncryptionPreferred                   // EncryptionPreferred means Transmission prefers encrypted connections for this torrent
+	EncryptionTolerated                   // EncryptionTolerated means Transmission can use encrypted connections for this torrent
 )
 
 var (
@@ -98,9 +98,9 @@ func (e *Encryption) UnmarshalJSON(data []byte) error {
 type Priority int
 
 const (
-	PriorityLow    Priority = -1
-	PriorityNormal Priority = 0
-	PriorityHigh   Priority = 1
+	PriorityLow    Priority = -1 // PriorityLow indicates low priority
+	PriorityNormal Priority = 0  // PriorityNormal indicates normal priority
+	PriorityHigh   Priority = 1  // PriorityHigh indicates high priority
 )
 
 func (p Priority) String() string {
@@ -120,9 +120,9 @@ func (p Priority) String() string {
 type Limit int
 
 const (
-	LimitGlobal    Limit = 0 // Honor global limit
-	LimitLocal     Limit = 1 // Honor local torrent limit
-	LimitUnlimited Limit = 2 // Don't honor any limit
+	LimitGlobal    Limit = 0 // LimitGlobal configures torrent to honor global limit
+	LimitLocal     Limit = 1 // LimitLocal configures torent to honor local torrent limit
+	LimitUnlimited Limit = 2 // LimitUnlimited configures torrent to not honor any limit
 )
 
 func (l Limit) String() string {
@@ -142,13 +142,13 @@ func (l Limit) String() string {
 type Status int
 
 const (
-	StatusStopped      Status = 0 // Stopped
-	StatusCheckWait    Status = 1 // Queued for checking
-	StatusCheck        Status = 2 // Checking
-	StatusDownloadWait Status = 3 // Queued for downloading
-	StatusDownload     Status = 4 // Downloading
-	StatusSeedWait     Status = 5 // Queued for seeding
-	StatusSeed         Status = 6 // Seeding
+	StatusStopped      Status = 0 // StatusStopped indicates that torrent is stopped
+	StatusCheckWait    Status = 1 // StatusCheckWait indicates that torrent is queued for checking
+	StatusCheck        Status = 2 // StatusCheck indicates that torrent is being checked
+	StatusDownloadWait Status = 3 // StatusDownloadWait indicates that torrent is queued for downloading
+	StatusDownload     Status = 4 // StatusDownload indicates that torrent is being downloaded
+	StatusSeedWait     Status = 5 // StatusSeedWait indicates that torrent is queued for seeding
+	StatusSeed         Status = 6 // StatusSeed indicates that torrent is being seeded
 )
 
 func (s Status) String() string {
@@ -176,10 +176,10 @@ func (s Status) String() string {
 type ErrorType int
 
 const (
-	ErrorTypeOK             ErrorType = 0 // Everything is OK
-	ErrorTypeTrackerWarning ErrorType = 1 // Warning from tracker
-	ErrorTypeTrackerError   ErrorType = 2 // Error from tracker
-	ErrorTypeLocalError     ErrorType = 3 // Local problems
+	ErrorTypeOK             ErrorType = 0 // ErrorTypeOK means no error
+	ErrorTypeTrackerWarning ErrorType = 1 // ErrorTypeTrackerWarning indicates a warning from tracker
+	ErrorTypeTrackerError   ErrorType = 2 // ErrorTypeTrackerError indicates an error from tracker
+	ErrorTypeLocalError     ErrorType = 3 // ErrorTypeLocalError indicates a local problem
 )
 
 func (e ErrorType) String() string {
@@ -201,10 +201,10 @@ func (e ErrorType) String() string {
 type TrackerState int
 
 const (
-	TrackerStateInactive TrackerState = 0 // Not gonna announce/scrape
-	TrackerStateWaiting  TrackerState = 1 // Waiting to announce/scrape
-	TrackerStateQueued   TrackerState = 2 // It's time to announce/scrape
-	TrackerStateActive   TrackerState = 3 // Announcing/scraping
+	TrackerStateInactive TrackerState = 0 // TrackerStateInactive indicates that Transmission is not announcing to tracker
+	TrackerStateWaiting  TrackerState = 1 // TrackerStateWaiting indicates that Transmission is waiting to announce to tracker
+	TrackerStateQueued   TrackerState = 2 // TrackerStateQueued indicates that Transmission has queued the announce to tracker
+	TrackerStateActive   TrackerState = 3 // TrackerStateActive indicates that Transmission has announced to tracker
 )
 
 func (t TrackerState) String() string {

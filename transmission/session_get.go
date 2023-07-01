@@ -1,4 +1,3 @@
-//go:generate go run ../tools/gen-fields.go -type Session
 package transmission
 
 import (
@@ -6,6 +5,7 @@ import (
 	"time"
 )
 
+// Session holds Transmission session information.
 type Session struct {
 	// ID of the current session
 	ID string `json:"session-id"`
@@ -128,6 +128,8 @@ type Session struct {
 	// Value conversion units
 	Units SessionUnits `json:"units"`
 }
+
+//go:generate go run ../tools/gen-fields.go -type Session
 
 // SessionUnits holds value conversion units.
 type SessionUnits struct {

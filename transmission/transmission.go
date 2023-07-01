@@ -1,3 +1,4 @@
+// Package transmission implement Go client for Transmission torrent client.
 package transmission
 
 import (

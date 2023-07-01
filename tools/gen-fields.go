@@ -1,4 +1,4 @@
-// +build ignore
+//go:build tools
 
 // gen-fields generate field names for API calls that accepts a list of object
 // field names to return.

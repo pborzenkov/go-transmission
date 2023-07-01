@@ -1,4 +1,3 @@
-//go:generate go run ../tools/gen-fields.go -type Torrent
 package transmission
 
 import (
@@ -227,6 +226,8 @@ type Torrent struct {
 	// TrackerStats holds statistics about trackers
 	TrackerStats []TrackerStat `json:"-" field:"trackerStats"`
 }
+
+//go:generate go run ../tools/gen-fields.go -type Torrent
 
 // Peer identifies a single peer
 type Peer struct {
