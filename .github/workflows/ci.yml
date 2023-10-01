@@ -13,7 +13,7 @@ jobs:
           echo "::set-output name=go-build::$(go env GOCACHE)"
           echo "::set-output name=go-mod::$(go env GOMODCACHE)"
       - name: Check out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install nix
         uses: DeterminateSystems/nix-installer-action@v4
       - name: Install cachix
