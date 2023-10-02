@@ -8,10 +8,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - id: go-cache-paths
-        run: |
-          echo "::set-output name=go-build::$(go env GOCACHE)"
-          echo "::set-output name=go-mod::$(go env GOMODCACHE)"
       - name: Check out
         uses: actions/checkout@v4
       - name: Install nix
@@ -21,18 +17,13 @@ jobs:
         with:
           name: devenv
       - name: Install devenv.sh
-        run: nix profile install --accept-flake-config github:cachix/devenv/latest
+        run: nix profile install tarball+https://install.devenv.sh/latest
       - name: Setup nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v2
-      - name: Setup cache
-        uses: actions/cache@v3
-        continue-on-error: false
+      - name: Setup go cache
+        uses: actions/setup-go@v4
         with:
-          path: |
-            ${{ steps.go-cache-paths.outputs.go-build }}
-            ${{ steps.go-cache-paths.outputs.go-mod }}                       
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: ${{ runner.os }}-go-
+          go-version-file: go.mod
       - name: Run pre-commit hooks
         run: |
           devenv shell pre-commit run --all-files
