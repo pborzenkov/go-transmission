@@ -15,18 +15,20 @@ jobs:
       - name: Install cachix
         uses: cachix/cachix-action@v13
         with:
-          name: devenv
-      - name: Install devenv.sh
-        run: nix profile install tarball+https://install.devenv.sh/latest
+          name: nix-community
       - name: Setup nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Setup go cache
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - name: Run pre-commit hooks
-        run: |
-          devenv shell pre-commit run --all-files
-      - name: Ensure generated files are up-to-date
-        run: |
-          devenv shell go generate ./... && git diff --exit-code
+      - name: gofmt
+        run: nix develop --command bash -c 'if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi'
+      - name: go vet
+        run: nix develop --command go vet ./...
+      - name: revive
+        run: nix develop --command revive -set_exit_status ./...
+      - name: staticcheck
+        run: nix develop --command staticcheck ./...
+      - name: go test
+        run: nix develop --command go test ./...
