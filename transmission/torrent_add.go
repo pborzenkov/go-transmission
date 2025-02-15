@@ -23,6 +23,8 @@ type AddTorrentReq struct {
 
 	// Don't automatically start torrent
 	Paused *bool `json:"paused,omitempty"`
+	// Labels to attach to the torrent to
+	Labels []string `json:"labels,omitempty"`
 
 	// Bandwidth priority
 	Priority *Priority `json:"bandwidthPriority,omitempty"`
