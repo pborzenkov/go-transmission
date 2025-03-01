@@ -16,8 +16,6 @@ jobs:
         uses: cachix/cachix-action@v15
         with:
           name: nix-community
-      - name: Setup nix cache
-        uses: DeterminateSystems/magic-nix-cache-action@v9
       - name: Setup go cache
         uses: actions/setup-go@v5
         with:
