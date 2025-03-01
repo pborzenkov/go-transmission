@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -52,7 +52,7 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	gotBody := new(bytes.Buffer)
 	wantBody := new(bytes.Buffer)
 
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		t.Fatalf("failed to read request body: %v", err)
 	}
@@ -165,7 +165,7 @@ func TestCallRPC_badHTTPCode(t *testing.T) {
 	client, handle, teardown := setup(t)
 	defer teardown()
 
-	handle(func(w http.ResponseWriter, r *http.Request) {
+	handle(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	})
 
@@ -204,7 +204,7 @@ func TestCallRPC_failed(t *testing.T) {
 	client, handle, teardown := setup(t)
 	defer teardown()
 
-	handle(func(w http.ResponseWriter, r *http.Request) {
+	handle(func(w http.ResponseWriter, _ *http.Request) {
 		fmt.Fprintf(w, `{"result":"some serius failure"}`)
 	})
 

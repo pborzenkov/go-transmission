@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"sync"
@@ -143,7 +142,7 @@ func (c *Client) callRPC(ctx context.Context, method string, args interface{}, r
 			break
 		}
 
-		_, _ = io.Copy(ioutil.Discard, io.LimitReader(resp.Body, 4096))
+		_, _ = io.Copy(io.Discard, io.LimitReader(resp.Body, 4096))
 		resp.Body.Close()
 		if resp.StatusCode != http.StatusConflict {
 			return fmt.Errorf("transmission: HTTP request failed (%s)", http.StatusText(resp.StatusCode))
